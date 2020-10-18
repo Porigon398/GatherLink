@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gatherlink">
 
-    // permission to access internet
+    <!-- permission to access internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
