@@ -21,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // set tool bar
+        setSupportActionBar(findViewById(R.id.toolBar))
+
         // set URL & show WebView
         showWebView()
         // scrape & parse HTML
@@ -52,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             doc = Jsoup.connect(WEB_VIEW_URL).get()
         }
         // wait 2000ms
-        Thread.sleep(2000)
+        Thread.sleep(5000)
 
         // get HTML page's title from DOM
         title = doc.title()
