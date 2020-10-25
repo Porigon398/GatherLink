@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GatherLink</string>
+    <string name="gather_button">Gather</string>
+    <string name="link_button">Button</string>
 </resources>

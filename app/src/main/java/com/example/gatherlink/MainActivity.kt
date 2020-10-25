@@ -3,6 +3,7 @@ package com.example.gatherlink
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.Menu
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,6 +29,22 @@ class MainActivity : AppCompatActivity() {
         showWebView()
         // scrape & parse HTML
         scrapeHtml()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // load res/menu/resources.xml
+        menuInflater.inflate(R.menu.resources, menu)
+        return true
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        // when device's back key pressed
+        if(keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+            // go back to previous page (not to home screen)
+            webView.goBack()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     /**
@@ -61,15 +78,5 @@ class MainActivity : AppCompatActivity() {
         title = doc.title()
         // output HTML page's title
         Log.d("hoge", title)
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        // when device's back key pressed
-        if(keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
-            // go back to previous page (not to home screen)
-            webView.goBack()
-            return true
-        }
-        return super.onKeyDown(keyCode, event)
     }
 }
