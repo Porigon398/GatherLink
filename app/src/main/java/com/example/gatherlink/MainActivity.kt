@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
+import android.view.MenuItem
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,7 +17,7 @@ import org.jsoup.nodes.Document
  */
 class MainActivity : AppCompatActivity() {
     /** URL of page show in WebView at first */
-    val WEB_VIEW_URL = "http://www.google.com"
+    val WEB_VIEW_URL = "https://en.wikipedia.org/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +28,22 @@ class MainActivity : AppCompatActivity() {
 
         // set URL & show WebView
         showWebView()
-        // scrape & parse HTML
-        scrapeHtml()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // load res/menu/resources.xml
         menuInflater.inflate(R.menu.resources, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // id of item on tool bar
+        val id = item.itemId
+        // when Link Button selected
+        if(id == R.id.linkButton) {
+            // scrape & parse HTML
+            scrapeHtml()
+        }
         return true
     }
 
@@ -61,10 +71,8 @@ class MainActivity : AppCompatActivity() {
      * scrape & parse HTML.
      */
     private fun scrapeHtml() {
-        /** DOM(?) */
+        // DOM(?)
         lateinit var doc: Document
-        /** HTML page's title */
-        var title = ""
 
         // use coroutine for HTTP communication
         launch {
@@ -74,9 +82,11 @@ class MainActivity : AppCompatActivity() {
         // wait 2000ms
         Thread.sleep(5000)
 
-        // get HTML page's title from DOM
-        title = doc.title()
-        // output HTML page's title
-        Log.d("hoge", title)
+        // get "a-tag" from DOM
+        val newsHeadlines = doc.select("#mp-itn b a")
+        // I DON'T UNDERSTAND but can get some URL
+        for(headline in newsHeadlines) {
+            Log.d("hoge", headline.absUrl("href"))
+        }
     }
 }
