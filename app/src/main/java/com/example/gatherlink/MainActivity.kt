@@ -17,7 +17,7 @@ import org.jsoup.nodes.Document
  */
 class MainActivity : AppCompatActivity() {
     /** URL of page show in WebView at first */
-    val WEB_VIEW_URL = "https://en.wikipedia.org/"
+    var mWebViewUrl = "https://google.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         // OMAJINAI
         webView.webViewClient = WebViewClient()
         // set URL want to open in WebView
-        webView.loadUrl(WEB_VIEW_URL)
+        webView.loadUrl(mWebViewUrl)
     }
 
     /**
@@ -74,16 +74,19 @@ class MainActivity : AppCompatActivity() {
         // DOM(?)
         lateinit var doc: Document
 
+        // get current page's URL
+        mWebViewUrl = webView.url
+
         // use coroutine for HTTP communication
         launch {
             // fetch and parse HTML file
-            doc = Jsoup.connect(WEB_VIEW_URL).get()
+            doc = Jsoup.connect(mWebViewUrl).get()
         }
         // wait 2000ms
         Thread.sleep(5000)
 
         // get "a-tag" from DOM
-        val newsHeadlines = doc.select("#mp-itn b a")
+        val newsHeadlines = doc.select("a")
         // I DON'T UNDERSTAND but can get some URL
         for(headline in newsHeadlines) {
             Log.d("hoge", headline.absUrl("href"))
