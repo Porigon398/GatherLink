@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -16,8 +18,14 @@ import org.jsoup.nodes.Document
 　* Main Activity.
  */
 class MainActivity : AppCompatActivity() {
-    /** URL of page show in WebView at first */
-    var mWebViewUrl = "https://google.com"
+    /** URL of page show in WebView */
+    private var mWebViewUrl = "https://google.com"
+    /** LinkList Fragment instance */
+    private lateinit var fragment: Fragment
+    /** Fragment Transaction */
+    private lateinit var transaction: FragmentTransaction
+    /** if LinkList is displayed */
+    private var mIsDisplayingLinkList = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +47,35 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // id of item on tool bar
         val id = item.itemId
+
         // when Link Button selected
         if(id == R.id.linkButton) {
-            // scrape & parse HTML
-            scrapeHtml()
+            // use FragmentTransaction
+            transaction = supportFragmentManager.beginTransaction()
+
+            // when LinkList isn't displayed
+            if(!mIsDisplayingLinkList) {
+                // make Fragment
+                fragment = LinkListFragment()
+                // set animation for Fragment's transition
+                transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                    android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                // add Fragment
+                transaction.add(R.id.webView, fragment)
+                // adjust Fragment transaction
+                transaction.commit()
+
+                // scrape & parse HTML
+                scrapeHtml()
+            } else {
+                // remove Fragment
+                transaction.remove(fragment)
+                // adjust Fragment transaction
+                transaction.commit()
+
+                // set flag...
+                mIsDisplayingLinkList = false
+            }
         }
         return true
     }
@@ -58,8 +91,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-    * set URL & show WebView.
-    */
+     * set URL & show WebView.
+     */
     private fun showWebView() {
         // OMAJINAI
         webView.webViewClient = WebViewClient()
@@ -91,5 +124,8 @@ class MainActivity : AppCompatActivity() {
         for(headline in newsHeadlines) {
             Log.d("hoge", headline.absUrl("href"))
         }
+
+        // set flag...
+        mIsDisplayingLinkList = true
     }
 }
