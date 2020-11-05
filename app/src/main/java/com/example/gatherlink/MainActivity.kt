@@ -18,7 +18,7 @@ import org.jsoup.nodes.Document
 　* Main Activity.
  */
 class MainActivity : AppCompatActivity() {
-    /** URL of page show in WebView */
+    /** URL of the page show in WebView */
     private var mWebViewUrl = "https://google.com"
     /** LinkList Fragment instance */
     private lateinit var fragment: Fragment
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // set tool bar
+        // set a tool bar
         setSupportActionBar(findViewById(R.id.toolBar))
 
         // set URL & show WebView
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // id of item on tool bar
+        // id of items on a tool bar
         val id = item.itemId
 
         // when Link Button selected
@@ -69,14 +69,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        // when device's back key pressed
+        // when a device's back key pressed
         if(keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
             // when LinkList is displayed
             if(mIsDisplayingLinkList) {
                 // let LinkListFragment slide out
                 startSlideOut()
             }
-            // go back to previous page (not to home screen)
+            // go back to the previous page (not to the home screen)
             webView.goBack()
             return true
         }
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         // get current page's URL
         mWebViewUrl = webView.url
 
-        // use coroutine for HTTP communication
+        // use a coroutine for HTTP communication
         launch {
             // fetch and parse HTML file
             doc = Jsoup.connect(mWebViewUrl).get()
@@ -117,9 +117,6 @@ class MainActivity : AppCompatActivity() {
         for(headline in newsHeadlines) {
             Log.d("hoge", headline.absUrl("href"))
         }
-
-        // set flag...
-        mIsDisplayingLinkList = true
     }
 
     /**
@@ -129,13 +126,16 @@ class MainActivity : AppCompatActivity() {
         // use FragmentTransaction
         transaction = supportFragmentManager.beginTransaction()
 
-        // set animation for Fragment's transition
+        // set animations for Fragment's transition
         transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
             android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         // add Fragment
         transaction.add(R.id.webView, fragment)
         // adjust Fragment transaction
         transaction.commit()
+
+        // set a flag...
+        mIsDisplayingLinkList = true
     }
 
     /**
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
         // use FragmentTransaction
         transaction = supportFragmentManager.beginTransaction()
 
-        // set animation for Fragment's transition
+        // set animations for Fragment's transition
         transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
             android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         // remove Fragment
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         // adjust Fragment transaction
         transaction.commit()
 
-        // set flag...
+        // set a flag...
         mIsDisplayingLinkList = false
     }
 }
