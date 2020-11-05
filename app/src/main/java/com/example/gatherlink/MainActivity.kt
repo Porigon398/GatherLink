@@ -50,31 +50,19 @@ class MainActivity : AppCompatActivity() {
 
         // when Link Button selected
         if(id == R.id.linkButton) {
-            // use FragmentTransaction
-            transaction = supportFragmentManager.beginTransaction()
-
             // when LinkList isn't displayed
             if(!mIsDisplayingLinkList) {
                 // make Fragment
                 fragment = LinkListFragment()
-                // set animation for Fragment's transition
-                transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-                    android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                // add Fragment
-                transaction.add(R.id.webView, fragment)
-                // adjust Fragment transaction
-                transaction.commit()
+
+                // let LinkListFragment slide in
+                startSlideIn()
 
                 // scrape & parse HTML
                 scrapeHtml()
             } else {
-                // remove Fragment
-                transaction.remove(fragment)
-                // adjust Fragment transaction
-                transaction.commit()
-
-                // set flag...
-                mIsDisplayingLinkList = false
+                // let LinkListFragment slide out
+                startSlideOut()
             }
         }
         return true
@@ -83,6 +71,11 @@ class MainActivity : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         // when device's back key pressed
         if(keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+            // when LinkList is displayed
+            if(mIsDisplayingLinkList) {
+                // let LinkListFragment slide out
+                startSlideOut()
+            }
             // go back to previous page (not to home screen)
             webView.goBack()
             return true
@@ -127,5 +120,40 @@ class MainActivity : AppCompatActivity() {
 
         // set flag...
         mIsDisplayingLinkList = true
+    }
+
+    /**
+     * start Fragment slide in.
+     * */
+    private fun startSlideIn() {
+        // use FragmentTransaction
+        transaction = supportFragmentManager.beginTransaction()
+
+        // set animation for Fragment's transition
+        transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+            android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        // add Fragment
+        transaction.add(R.id.webView, fragment)
+        // adjust Fragment transaction
+        transaction.commit()
+    }
+
+    /**
+     * start Fragment slide out.
+     * */
+    private fun startSlideOut() {
+        // use FragmentTransaction
+        transaction = supportFragmentManager.beginTransaction()
+
+        // set animation for Fragment's transition
+        transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+            android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        // remove Fragment
+        transaction.remove(fragment)
+        // adjust Fragment transaction
+        transaction.commit()
+
+        // set flag...
+        mIsDisplayingLinkList = false
     }
 }
