@@ -1,11 +1,11 @@
 package com.example.gatherlink
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.gatherlink.log.GatherLinkLog
 import kotlinx.android.synthetic.main.fragment_link_list.*
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -18,28 +18,40 @@ class LinkListFragment : Fragment() {
     /** MainActivity instance. */
     private lateinit var mMainActivity: MainActivity
 
+    /** class name for log output */
+    private val TAG = LinkListFragment::class.java.simpleName
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        GatherLinkLog.enter(TAG, "onCreateView")
+
+        GatherLinkLog.exit(TAG, "onCreateView")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_link_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        GatherLinkLog.enter(TAG, "onViewCreated")
 
         // get MainActivity instance
         mMainActivity = activity as MainActivity
 
         // scrape & parse HTML
         scrapeHtml()
+
+        GatherLinkLog.exit(TAG, "onViewCreated")
     }
 
     /**
      * scrape & parse HTML.
      */
     private fun scrapeHtml() {
+        GatherLinkLog.enter(TAG, "scrapeHtml")
+
         // DOM(?)
         lateinit var doc: Document
 
@@ -59,7 +71,9 @@ class LinkListFragment : Fragment() {
         // I DON'T UNDERSTAND but can get some URL
         for(headline in aTag) {
             textView.append(headline.absUrl("href") + "\n")
-            Log.d("hoge", headline.absUrl("href"))
+            GatherLinkLog.debug(TAG, "[link] " + headline.absUrl("href"))
         }
+
+        GatherLinkLog.exit(TAG, "scrapeHtml")
     }
 }

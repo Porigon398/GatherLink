@@ -9,6 +9,7 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.gatherlink.log.GatherLinkLog
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -27,8 +28,13 @@ class MainActivity : AppCompatActivity() {
     /** if LinkList is displayed. */
     private var mIsDisplayingLinkList = false
 
+    /** class name for log output */
+    private val TAG = MainActivity::class.java.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        GatherLinkLog.enter(TAG, "onCreate")
+
         setContentView(R.layout.activity_main)
 
         // set a tool bar
@@ -38,15 +44,24 @@ class MainActivity : AppCompatActivity() {
 
         // set URL & show WebView
         showWebView()
+
+        GatherLinkLog.exit(TAG, "onCreate")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        GatherLinkLog.enter(TAG, "onCreateOptionsMenu")
+
         // load res/menu/resources.xml
         menuInflater.inflate(R.menu.resources, menu)
+
+        GatherLinkLog.exit(TAG, "onCreateOptionsMenu")
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        GatherLinkLog.enter(TAG, "onOptionsItemSelected")
+
         // id of items on a tool bar
         val id = item.itemId
 
@@ -64,10 +79,14 @@ class MainActivity : AppCompatActivity() {
                 startSlideOut()
             }
         }
+        GatherLinkLog.exit(TAG, "onOptionsItemSelected")
+
         return true
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        GatherLinkLog.enter(TAG, "onKeyDown")
+
         // when a device's back key pressed
         if(keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
             // when LinkList is displayed
@@ -79,6 +98,8 @@ class MainActivity : AppCompatActivity() {
             mWebView.goBack()
             return true
         }
+        GatherLinkLog.exit(TAG, "onKeyDown")
+
         return super.onKeyDown(keyCode, event)
     }
 
@@ -86,16 +107,22 @@ class MainActivity : AppCompatActivity() {
      * set URL & show WebView.
      */
     private fun showWebView() {
+        GatherLinkLog.enter(TAG, "showWebView")
+
         // OMAJINAI
         mWebView.webViewClient = WebViewClient()
         // set URL want to open in WebView
         mWebView.loadUrl(mWebViewUrl)
+
+        GatherLinkLog.exit(TAG, "showWebView")
     }
 
     /**
      * start Fragment slide in.
      * */
     private fun startSlideIn() {
+        GatherLinkLog.enter(TAG, "startSlideIn")
+
         // use FragmentTransaction
         mTransaction = supportFragmentManager.beginTransaction()
 
@@ -109,12 +136,16 @@ class MainActivity : AppCompatActivity() {
 
         // set a flag...
         mIsDisplayingLinkList = true
+
+        GatherLinkLog.exit(TAG, "startSlideIn")
     }
 
     /**
      * start Fragment slide out.
      * */
     private fun startSlideOut() {
+        GatherLinkLog.enter(TAG, "startSlideOut")
+
         // use FragmentTransaction
         mTransaction = supportFragmentManager.beginTransaction()
 
@@ -128,5 +159,7 @@ class MainActivity : AppCompatActivity() {
 
         // set a flag...
         mIsDisplayingLinkList = false
+
+        GatherLinkLog.exit(TAG, "startSlideOut")
     }
 }
