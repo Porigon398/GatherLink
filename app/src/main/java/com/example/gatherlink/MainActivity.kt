@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 /**
 　* Main Activity.
- */
+  */
 class MainActivity : AppCompatActivity() {
     /** WebView. */
     lateinit var mWebView: WebView
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             // when LinkList isn't displayed
             if(!mIsDisplayingLinkList) {
                 // make Fragment
-                mFragment = LinkListFragment()
+                mFragment = LinkListActivity()
 
                 // let LinkListFragment slide in
                 startSlideIn()
@@ -119,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * start Fragment slide in.
-     * */
+     */
     private fun startSlideIn() {
         GatherLinkLog.enter(TAG, "startSlideIn")
 
@@ -137,12 +138,15 @@ class MainActivity : AppCompatActivity() {
         // set a flag...
         mIsDisplayingLinkList = true
 
+        // let MainActivity untouchable
+        window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+
         GatherLinkLog.exit(TAG, "startSlideIn")
     }
 
     /**
      * start Fragment slide out.
-     * */
+     */
     private fun startSlideOut() {
         GatherLinkLog.enter(TAG, "startSlideOut")
 

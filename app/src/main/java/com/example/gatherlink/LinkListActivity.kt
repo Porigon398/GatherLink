@@ -6,20 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.gatherlink.log.GatherLinkLog
-import kotlinx.android.synthetic.main.fragment_link_list.*
+import kotlinx.android.synthetic.main.activity_link_list.*
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 /**
- * LinkList Fragment.
+ * LinkList Activity.
  */
-class LinkListFragment : Fragment() {
+class LinkListActivity : Fragment() {
     /** MainActivity instance. */
     private lateinit var mMainActivity: MainActivity
 
     /** class name for log output */
-    private val TAG = LinkListFragment::class.java.simpleName
+    private val TAG = LinkListActivity::class.java.simpleName
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +29,8 @@ class LinkListFragment : Fragment() {
 
         GatherLinkLog.exit(TAG, "onCreateView")
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_link_list, container, false)
+        // Inflate the layout for this activity
+        return inflater.inflate(R.layout.activity_link_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
