@@ -1,15 +1,17 @@
 package com.example.gatherlink
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.gatherlink.log.GatherLinkLog
 import kotlinx.android.synthetic.main.fragment_link_list.*
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+
 
 /**
  * LinkList Fragment.
@@ -40,6 +42,8 @@ class LinkListFragment : Fragment() {
         // get MainActivity instance
         mMainActivity = activity as MainActivity
 
+        // adopt TextView scroll
+        textView.movementMethod = ScrollingMovementMethod()
         // scrape & parse HTML
         scrapeHtml()
 

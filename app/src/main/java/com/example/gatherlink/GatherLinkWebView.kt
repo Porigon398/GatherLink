@@ -3,7 +3,6 @@ package com.example.gatherlink
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
 import android.webkit.WebView
 import com.example.gatherlink.log.GatherLinkLog
 
@@ -26,14 +25,14 @@ class GatherLinkWebView : WebView {
         defStyleAttrs
     )
 
-    override fun onViewAdded(child: View?) {
-        super.onViewAdded(child)
-        GatherLinkLog.enter(TAG, "onViewAdded")
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        GatherLinkLog.enter(TAG, "onAttachedToWindow")
 
         // get MainActivity instance
         mMainActivity = context as MainActivity
 
-        GatherLinkLog.exit(TAG, "onViewAdded")
+        GatherLinkLog.exit(TAG, "onAttachedToWindow")
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
