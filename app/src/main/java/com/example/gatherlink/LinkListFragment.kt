@@ -18,7 +18,7 @@ class LinkListFragment : Fragment() {
     /** MainActivity instance. */
     private lateinit var mMainActivity: MainActivity
 
-    /** class name for log output */
+    /** class name for log output. */
     private val TAG = LinkListFragment::class.java.simpleName
 
     override fun onCreateView(

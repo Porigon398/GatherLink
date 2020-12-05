@@ -3,7 +3,7 @@ package com.example.gatherlink.log
 import android.util.Log
 
 /**
- * Original log class.
+ * Custom log class.
  */
 class GatherLinkLog {
     companion object {

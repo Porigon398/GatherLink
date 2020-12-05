@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.webkit.WebView
+import android.view.MotionEvent
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,12 +12,13 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.gatherlink.log.GatherLinkLog
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 /**
-　* Main Activity.
+ * Main Activity.
  */
 class MainActivity : AppCompatActivity() {
     /** WebView. */
-    lateinit var mWebView: WebView
+    lateinit var mWebView: GatherLinkWebView
     /** LinkListFragment instance. */
     private lateinit var mFragment: Fragment
     /** Fragment Transaction. */
@@ -26,9 +27,9 @@ class MainActivity : AppCompatActivity() {
     /** URL of the page show in WebView. */
     var mWebViewUrl = "https://google.com"
     /** if LinkList is displayed. */
-    private var mIsDisplayingLinkList = false
+    var mIsDisplayingLinkList = false
 
-    /** class name for log output */
+    /** class name for log output. */
     private val TAG = MainActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        // set WebView
+        mWebView = findViewById(R.id.webView)
         // set a tool bar
         setSupportActionBar(findViewById(R.id.toolBar))
-        // WebView
-        mWebView = findViewById(R.id.webView)
 
         // set URL & show WebView
         showWebView()
@@ -96,6 +97,9 @@ class MainActivity : AppCompatActivity() {
             }
             // go back to the previous page (not to the home screen)
             mWebView.goBack()
+
+            GatherLinkLog.exit(TAG, "onKeyDown")
+
             return true
         }
         GatherLinkLog.exit(TAG, "onKeyDown")
@@ -119,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * start Fragment slide in.
-     * */
+     */
     private fun startSlideIn() {
         GatherLinkLog.enter(TAG, "startSlideIn")
 
@@ -127,8 +131,10 @@ class MainActivity : AppCompatActivity() {
         mTransaction = supportFragmentManager.beginTransaction()
 
         // set animations for Fragment's transition
-        mTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-            android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        mTransaction.setCustomAnimations(
+            android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+            android.R.anim.slide_in_left, android.R.anim.slide_out_right
+        )
         // add Fragment
         mTransaction.add(R.id.webView, mFragment)
         // adjust Fragment transaction
@@ -142,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * start Fragment slide out.
-     * */
+     */
     private fun startSlideOut() {
         GatherLinkLog.enter(TAG, "startSlideOut")
 
@@ -150,8 +156,10 @@ class MainActivity : AppCompatActivity() {
         mTransaction = supportFragmentManager.beginTransaction()
 
         // set animations for Fragment's transition
-        mTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
-            android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        mTransaction.setCustomAnimations(
+            android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+            android.R.anim.slide_in_left, android.R.anim.slide_out_right
+        )
         // remove Fragment
         mTransaction.remove(mFragment)
         // adjust Fragment transaction
