@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.gatherlink.log.GatherLinkLog
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 /**
  * Main Activity.
  */
@@ -135,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             android.R.anim.slide_in_left, android.R.anim.slide_out_right
         )
         // add Fragment
-        mTransaction.add(R.id.webView, mFragment)
+        mTransaction.add(R.id.fragmentZone, mFragment)
         // adjust Fragment transaction
         mTransaction.commit()
 

@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-
 /**
  * LinkList Fragment.
  */
@@ -72,10 +71,10 @@ class LinkListFragment : Fragment() {
 
         // get "a-tag" from DOM
         val aTag = doc.select("a")
-        // I DON'T UNDERSTAND but can get some URL
+        // I DON'T UNDERSTAND but can get some text
         for(headline in aTag) {
-            textView.append(headline.absUrl("href") + "\n")
-            GatherLinkLog.debug(TAG, "[link] " + headline.absUrl("href"))
+            textView.append(headline.text() + "\n")
+            GatherLinkLog.debug(TAG, "[text] " + headline.text())
         }
 
         GatherLinkLog.exit(TAG, "scrapeHtml")
