@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mTransaction: FragmentTransaction
 
     /** URL of the page show in WebView. */
-    var mWebViewUrl = "https://google.com"
+    var mWebViewUrl = "https://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8"
     /** if LinkList is displayed. */
     var mIsDisplayingLinkList = false
 
