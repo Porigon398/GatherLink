@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_main.*
  * Main Activity.
  */
 class MainActivity : AppCompatActivity() {
+    /** URL of the page show in WebView. */
+    lateinit var mWebViewUrl: String
     /** WebView. */
     lateinit var mWebView: GatherLinkWebView
     /** LinkListFragment instance. */
@@ -22,8 +24,6 @@ class MainActivity : AppCompatActivity() {
     /** Fragment Transaction. */
     private lateinit var mTransaction: FragmentTransaction
 
-    /** URL of the page show in WebView. */
-    var mWebViewUrl = "https://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8"
     /** if LinkList is displayed. */
     var mIsDisplayingLinkList = false
 
@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        // get URL of the page show in WebView
+        mWebViewUrl = getString(R.string.web_view_url)
         // set WebView
         mWebView = findViewById(R.id.webView)
         // set a tool bar

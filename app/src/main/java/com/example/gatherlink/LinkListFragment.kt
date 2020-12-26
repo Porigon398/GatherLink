@@ -57,7 +57,7 @@ class LinkListFragment : Fragment() {
 
         // get current page's URL
         mMainActivity.mWebViewUrl = mMainActivity.mWebView.url
-        GatherLinkLog.debug(TAG, "scrapeHtml: scraping " + mMainActivity.mWebViewUrl)
+        GatherLinkLog.debug(TAG, getString(R.string.log_scarping_text) + mMainActivity.mWebViewUrl)
 
         // use a coroutine for HTTP communication
         launch {
@@ -68,7 +68,7 @@ class LinkListFragment : Fragment() {
         Thread.sleep(10000)
 
         // title strings from current page's URL
-        val titleFromUrl = mMainActivity.mWebViewUrl.removePrefix("https://ja.m.wikipedia.org/wiki/")
+        val titleFromUrl = mMainActivity.mWebViewUrl.removePrefix(getString(R.string.wikipedia_common_link))
         // get "a-tag" from DOM
         val aTag = doc.select("a")
         // if first "edit" link appeared
@@ -76,25 +76,38 @@ class LinkListFragment : Fragment() {
         // if first "how to use references" link appeared
         var isMainSectionEnded = false
 
-        // I DON'T UNDERSTAND but can get some text
+        // I DON'T UNDERSTAND but can get some URL
         for(headline in aTag) {
-            if(headline.absUrl("href").indexOf("action=edit&section=0") != -1) {
+            // when the strings included in URL
+            if(headline.absUrl("href").indexOf(getString(R.string.first_edit_link)) != -1) {
+                // set a flag meaning first "edit" link appeared
                 isMainSectionStarted = true
-            } else if(headline.absUrl("href").indexOf("Help:%E8%84%9A%E6%B3%A8/%E8%AA%AD%E8%80%85%E5%90%91%E3%81%91") != -1) {
+            }
+            // when the strings included in URL
+            else if(headline.absUrl("href").indexOf(getString(R.string.how_to_use_references_link)) != -1) {
+                // set a flag meaning first "how to use references" link appeared
                 isMainSectionEnded = true
             }
 
+            // when satisfy following requirements
+            // - not include title strings
+            // - not include edit URL
+            // - not include "[xx] (link for references)"
+            // - not include "^ (link for a word has references)"
+            // - first "edit" link already appeared
+            // - first "how to use references" link doesn't appeared
             if(headline.absUrl("href").indexOf(titleFromUrl) == -1
-                && headline.absUrl("href").indexOf("action=edit") == -1
-                && headline.absUrl("href").indexOf("cite_note") == -1
-                && headline.absUrl("href").indexOf("cite_ref") == -1
+                && headline.absUrl("href").indexOf(getString(R.string.edit_link)) == -1
+                && headline.absUrl("href").indexOf(getString(R.string.to_reference_link)) == -1
+                && headline.absUrl("href").indexOf(getString(R.string.to_referenced_link)) == -1
                 && isMainSectionStarted && !isMainSectionEnded) {
+                    // add a title of URL to the text view
                     textView.append(headline.text() + "\n")
-                    GatherLinkLog.debug(TAG, "[text: displayed] " + headline.text())
+                    GatherLinkLog.debug(TAG, getString(R.string.log_displayed_text) + headline.text())
             } else {
-                GatherLinkLog.debug(TAG, "[text: NOT displayed] " + headline.text())
+                GatherLinkLog.debug(TAG, getString(R.string.log_not_displayed_text) + headline.text())
             }
-            GatherLinkLog.debug(TAG, "[link] " + headline.absUrl("href"))
+            GatherLinkLog.debug(TAG, getString(R.string.log_link) + headline.absUrl("href"))
         }
 
         GatherLinkLog.exit(TAG, "scrapeHtml")
