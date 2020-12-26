@@ -2,4 +2,20 @@
     <string name="app_name">GatherLink</string>
     <string name="gather_button">Gather</string>
     <string name="link_button">Button</string>
+
+    <string name="web_view_url">https://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8</string>
+
+    <!-- link -->
+    <string name="wikipedia_common_link">https://ja.m.wikipedia.org/wiki/</string>
+    <string name="first_edit_link">action=edit&amp;section=0</string>
+    <string name="how_to_use_references_link">Help:%E8%84%9A%E6%B3%A8/%E8%AA%AD%E8%80%85%E5%90%91%E3%81%91</string>
+    <string name="edit_link">action=edit</string>
+    <string name="to_reference_link">cite_note</string>
+    <string name="to_referenced_link">cite_ref</string>
+
+    <!-- log -->
+    <string name="log_scarping_text">"scrapeHtml: scraping "</string>
+    <string name="log_displayed_text">"[text: displayed] </string>
+    <string name="log_not_displayed_text">"[text: NOT displayed] "</string>
+    <string name="log_link">"[link] "</string>
 </resources>

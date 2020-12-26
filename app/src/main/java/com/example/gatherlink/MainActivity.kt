@@ -11,11 +11,12 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.gatherlink.log.GatherLinkLog
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 /**
  * Main Activity.
  */
 class MainActivity : AppCompatActivity() {
+    /** URL of the page show in WebView. */
+    lateinit var mWebViewUrl: String
     /** WebView. */
     lateinit var mWebView: GatherLinkWebView
     /** LinkListFragment instance. */
@@ -23,8 +24,6 @@ class MainActivity : AppCompatActivity() {
     /** Fragment Transaction. */
     private lateinit var mTransaction: FragmentTransaction
 
-    /** URL of the page show in WebView. */
-    var mWebViewUrl = "https://google.com"
     /** if LinkList is displayed. */
     var mIsDisplayingLinkList = false
 
@@ -37,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        // get URL of the page show in WebView
+        mWebViewUrl = getString(R.string.web_view_url)
         // set WebView
         mWebView = findViewById(R.id.webView)
         // set a tool bar
@@ -135,7 +136,7 @@ class MainActivity : AppCompatActivity() {
             android.R.anim.slide_in_left, android.R.anim.slide_out_right
         )
         // add Fragment
-        mTransaction.add(R.id.webView, mFragment)
+        mTransaction.add(R.id.fragmentZone, mFragment)
         // adjust Fragment transaction
         mTransaction.commit()
 
